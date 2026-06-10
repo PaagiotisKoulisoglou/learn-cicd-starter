@@ -20,3 +20,13 @@ jobs:
 
       - name: Build app
         run: ./scripts/buildprod.sh
+
+      - name: Set up GCloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          project_id: dulcet-cat-499011-e7
+          export_default_credentials: true
+
+      - name: Build and push Docker image
+        run: gcloud builds submit --tag us-central1-docker.pkg.dev/dulcet-cat-499011-e7/notely-ar-repo/notely:latest .
